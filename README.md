@@ -17,3 +17,11 @@ On `master 82d0a39` we have
 - 3rd and subsequent loads are like second
 
 - what is the centering effect of `scaleAspectFit`?
+
+```
+UIView.ContentMode.scaleToFill     = 0  fills, aspect ratio not preserved, default
+UIView.ContentMode.scaleAspectFit  = 1  aspect ratio preserved, may not fill
+UIView.ContentMode.scaleAspectFill = 2  aspect ratio preserved, may clip
+UIView.ContentMode.center          = 4  center the content in the view’s bounds, keeping the proportions the same.
+```
+

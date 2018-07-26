@@ -30,6 +30,8 @@ class ViewController: UIViewController {
 
     var imageView = UIImageView()
 
+    @IBOutlet weak var croppedImageView: UIImageView!
+
     @IBOutlet weak var scrollView: UIScrollView!
 
     @IBOutlet weak var loadImage: UIButton!
@@ -38,7 +40,7 @@ class ViewController: UIViewController {
 
     fileprivate func printScales(_ caller: String) {
         print("")
-//        print("\(caller) printScales imageView.contentMode", imageView.contentMode.rawValue)
+        print("\(caller) printScales imageView.contentMode=\(imageView.contentMode.rawValue)", "scrollView.contentMode=\(scrollView.contentMode.rawValue)")
 //        print("\(caller) printScales scrollView.zoomScale=\(scrollView.zoomScale) min=\(scrollView.minimumZoomScale) max=\(scrollView.maximumZoomScale)")
 //        print("\(caller) printScales scrollView.contentOffset=\(scrollView.contentOffset) center= \(scrollView.center)")
         print("\(caller) printScales imageView.frame=\(imageView.frame.fmt)")
@@ -50,10 +52,22 @@ class ViewController: UIViewController {
         scrollView.delegate = self
 
         imageView.frame = CGRect(origin: CGPoint(), size: scrollView.frame.size)
-        imageView.image = UIImage(named: "image-x-generic-icon.png")
+//        imageView.image = UIImage(named: "image-x-generic-icon.png")
+//        imageView.image = UIImage(named: "IMG_2616")
+
+
         imageView.isUserInteractionEnabled = true
         scrollView.addSubview(imageView)
-        imageView.contentMode = .center
+//        imageView.contentMode = .center
+        imageView.contentMode = .scaleAspectFit
+        scrollView.contentMode = .scaleAspectFit
+
+        let image = (UIImage(named: "IMG_2616")!)
+        print("viewDidLoad image.size= \(image.size.fmt)")
+
+        setUpImageScroll(image)
+
+//        croppedImageView.contentMode = .scaleAspectFit
 //        scrollView.center
 
         printScales("viewDidLoad")
@@ -105,20 +119,20 @@ class ViewController: UIViewController {
     fileprivate func setUpImageScroll(_ image: UIImage) {
         printScales(">  setUpImageScroll")
         imageView.image = image
-        imageView.contentMode = .center
+//        imageView.contentMode = .center
         imageView.frame = CGRect(origin: CGPoint(), size: image.size)
         scrollView.contentSize = image.size
 
         printScales(".  setUpImageScroll")
-
-        let scrollViewFrame = scrollView.frame
-        let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
-        let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
-        let minScale = min(scaleWidth, scaleHeight)
-
-        scrollView.minimumZoomScale = minScale
-        scrollView.maximumZoomScale = 1
-        scrollView.zoomScale = minScale
+//
+//        let scrollViewFrame = scrollView.frame
+//        let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
+//        let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
+//        let minScale = min(scaleWidth, scaleHeight)
+//
+//        scrollView.minimumZoomScale = minScale
+//        scrollView.maximumZoomScale = 1
+//        scrollView.zoomScale = minScale
 
         centerScrollViewContents()
         printScales("<  setUpImageScroll")
@@ -132,19 +146,22 @@ class ViewController: UIViewController {
 
         print("cropAndSave image.size=\(imageView.image?.size) image.scale=\(imageView.image?.scale)")
 
-        let offset = scrollView.contentOffset
+//        let offset = scrollView.contentOffset
         //        let origin = CGPoint(x: -offset.x, y: -offset.y)
-        let origin = scrollView.contentOffset
+//        let origin = scrollView.contentOffset
+        let origin = CGPoint()
 
         imageView.image?.draw(at: origin)
         let result = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext();
 
-        UIImageWriteToSavedPhotosAlbum(result!, nil, nil, nil)
+//        UIImageWriteToSavedPhotosAlbum(result!, nil, nil, nil)
+//
+//        let alert = UIAlertController(title: "image saved", message: "image saved", preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//        self.present(alert, animated: true, completion: nil)
 
-        let alert = UIAlertController(title: "image saved", message: "image saved", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        croppedImageView.image = result
     }
 }
 
