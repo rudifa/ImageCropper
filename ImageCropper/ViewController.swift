@@ -58,7 +58,7 @@ class ViewController: UIViewController {
 
         imageView.isUserInteractionEnabled = true
         scrollView.addSubview(imageView)
-//        imageView.contentMode = .center
+
         imageView.contentMode = .scaleAspectFit
         scrollView.contentMode = .scaleAspectFit
 
@@ -67,7 +67,7 @@ class ViewController: UIViewController {
 
         setUpImageScroll(image)
 
-//        croppedImageView.contentMode = .scaleAspectFit
+        croppedImageView.contentMode = .scaleAspectFit
 //        scrollView.center
 
         printScales("viewDidLoad")
@@ -119,7 +119,7 @@ class ViewController: UIViewController {
     fileprivate func setUpImageScroll(_ image: UIImage) {
         printScales(">  setUpImageScroll")
         imageView.image = image
-//        imageView.contentMode = .center
+
         imageView.frame = CGRect(origin: CGPoint(), size: image.size)
         scrollView.contentSize = image.size
 

@@ -25,3 +25,5 @@ UIView.ContentMode.scaleAspectFill = 2  aspect ratio preserved, may clip
 UIView.ContentMode.center          = 4  center the content in the view’s bounds, keeping the proportions the same.
 ```
 
+ba06825: at last we have same behavior for scroll view btw initial image and loaded image.
+
