@@ -37,14 +37,16 @@
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwD-Mf-d4N">
                                 <rect key="frame" x="16" y="114" width="343" height="314"/>
+                                <color key="backgroundColor" red="0.81265920560000005" green="0.88647487079999998" blue="0.93009507479999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </scrollView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tap to load image" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="biI-NC-eF4">
-                                <rect key="frame" x="96" y="466" width="183" height="21"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ox0-Lf-0Yw">
+                                <rect key="frame" x="127" y="508" width="120" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <state key="normal" title="Load Image"/>
+                                <connections>
+                                    <action selector="loadImageTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WQg-3R-Mon"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -63,6 +65,7 @@
                     </view>
                     <connections>
                         <outlet property="cropAndSave" destination="D9l-nD-aeH" id="Yxe-9O-jIy"/>
+                        <outlet property="loadImage" destination="Ox0-Lf-0Yw" id="qAF-AY-YDz"/>
                         <outlet property="scrollView" destination="cwD-Mf-d4N" id="XSE-B1-dkG"/>
                     </connections>
                 </viewController>

@@ -16,11 +16,17 @@ extension CGSize {
     var fmt: String { return String(format: "(%.2f, %.2f)", self.width, self.height) }
 }
 
+extension CGFloat {
+    var fmt: String { return String(format: "%.3g", self) }
+}
+
 class ViewController: UIViewController {
 
     var imageView = UIImageView()
 
     @IBOutlet weak var scrollView: UIScrollView!
+
+    @IBOutlet weak var loadImage: UIButton!
 
     @IBOutlet weak var cropAndSave: UIButton!
 
@@ -37,12 +43,16 @@ class ViewController: UIViewController {
         imageView.isUserInteractionEnabled = true
         scrollView.addSubview(imageView)
 
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(loadImage(recognizer:)))
-        tapGestureRecognizer.numberOfTapsRequired = 1
-        imageView.addGestureRecognizer(tapGestureRecognizer)
+//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(loadImage(recognizer:)))
+//        tapGestureRecognizer.numberOfTapsRequired = 1
+//        imageView.addGestureRecognizer(tapGestureRecognizer)
     }
 
     @objc func loadImage(recognizer: UITapGestureRecognizer) {
+       presentImagePicker()
+    }
+
+    func presentImagePicker() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
@@ -65,6 +75,32 @@ class ViewController: UIViewController {
             contentsFrame.origin.y = 0
         }
         imageView.frame = contentsFrame
+    }
+
+    @IBAction func loadImageTap(_ sender: Any) {
+        presentImagePicker()
+    }
+    
+    @IBAction func cropAndSaveTap(_ sender: Any) {
+        UIGraphicsBeginImageContextWithOptions(scrollView.bounds.size, true, UIScreen.main.scale)
+
+        print("cropAndSave scrollView.size=\(scrollView.bounds.size) scrollView.offset=\(scrollView.contentOffset) scale=\(UIScreen.main.scale)")
+
+        print("cropAndSave image.size=\(imageView.image?.size) image.scale=\(imageView.image?.scale)")
+
+        let offset = scrollView.contentOffset
+        //        let origin = CGPoint(x: -offset.x, y: -offset.y)
+        let origin = scrollView.contentOffset
+
+        imageView.image?.draw(at: origin)
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext();
+
+        UIImageWriteToSavedPhotosAlbum(result!, nil, nil, nil)
+
+        let alert = UIAlertController(title: "image saved", message: "image saved", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -90,6 +126,8 @@ extension ViewController: UIImagePickerControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        print("   imagePickerController didFinishPickingMediaWithInfo", "size=\(image.size.fmt)", "scale=\(image.scale.fmt)")
+
         imageView.image = image
         imageView.contentMode = .center
         imageView.frame = CGRect(origin: CGPoint(), size: image.size)
@@ -112,28 +150,6 @@ extension ViewController: UIImagePickerControllerDelegate {
 }
 
 extension ViewController:  UINavigationControllerDelegate {
-
-    @IBAction func cropAndSaveTap(_ sender: Any) {
-        UIGraphicsBeginImageContextWithOptions(scrollView.bounds.size, true, UIScreen.main.scale)
-
-        print("cropAndSave scrollView.size=\(scrollView.bounds.size) scrollView.offset=\(scrollView.contentOffset) scale=\(UIScreen.main.scale)")
-
-        print("cropAndSave image.size=\(imageView.image?.size) image.scale=\(imageView.image?.scale)")
-
-        let offset = scrollView.contentOffset
-//        let origin = CGPoint(x: -offset.x, y: -offset.y)
-        let origin = scrollView.contentOffset
-
-        imageView.image?.draw(at: origin)
-        let result = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext();
-
-        UIImageWriteToSavedPhotosAlbum(result!, nil, nil, nil)
-
-        let alert = UIAlertController(title: "image saved", message: "image saved", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
 
 }
 
