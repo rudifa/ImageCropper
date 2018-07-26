@@ -116,8 +116,13 @@ extension ViewController:  UINavigationControllerDelegate {
     @IBAction func cropAndSaveTap(_ sender: Any) {
         UIGraphicsBeginImageContextWithOptions(scrollView.bounds.size, true, UIScreen.main.scale)
 
+        print("cropAndSave scrollView.size=\(scrollView.bounds.size) scrollView.offset=\(scrollView.contentOffset) scale=\(UIScreen.main.scale)")
+
+        print("cropAndSave image.size=\(imageView.image?.size) image.scale=\(imageView.image?.scale)")
+
         let offset = scrollView.contentOffset
-        let origin = CGPoint(x: -offset.x, y: -offset.y)
+//        let origin = CGPoint(x: -offset.x, y: -offset.y)
+        let origin = scrollView.contentOffset
 
         imageView.image?.draw(at: origin)
         let result = UIGraphicsGetImageFromCurrentImageContext()
