@@ -8,6 +8,11 @@
 
 import UIKit
 
+
+extension CGFloat {
+    var fmt: String { return String(format: "%.3g", self) }
+}
+
 extension CGPoint {
     var fmt: String { return String(format: "(%.2f, %.2f)", self.x, self.y) }
 }
@@ -16,9 +21,10 @@ extension CGSize {
     var fmt: String { return String(format: "(%.2f, %.2f)", self.width, self.height) }
 }
 
-extension CGFloat {
-    var fmt: String { return String(format: "%.3g", self) }
+extension CGRect {
+    var fmt: String { return origin.fmt + size.fmt }
 }
+
 
 class ViewController: UIViewController {
 
@@ -30,31 +36,40 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var cropAndSave: UIButton!
 
+    fileprivate func printScales(_ caller: String) {
+        print("")
+//        print("\(caller) printScales imageView.contentMode", imageView.contentMode.rawValue)
+//        print("\(caller) printScales scrollView.zoomScale=\(scrollView.zoomScale) min=\(scrollView.minimumZoomScale) max=\(scrollView.maximumZoomScale)")
+//        print("\(caller) printScales scrollView.contentOffset=\(scrollView.contentOffset) center= \(scrollView.center)")
+        print("\(caller) printScales imageView.frame=\(imageView.frame.fmt)")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         scrollView.delegate = self
 
-
-        //        imageView.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: scrollView.frame.size.width, height: scrollView.frame.size.height)
-
         imageView.frame = CGRect(origin: CGPoint(), size: scrollView.frame.size)
         imageView.image = UIImage(named: "image-x-generic-icon.png")
         imageView.isUserInteractionEnabled = true
         scrollView.addSubview(imageView)
+        imageView.contentMode = .center
+//        scrollView.center
 
-        print("   viewDidLoad imageView.contentMode", imageView.contentMode.rawValue)
+        printScales("viewDidLoad")
 
 //        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(loadImage(recognizer:)))
 //        tapGestureRecognizer.numberOfTapsRequired = 1
 //        imageView.addGestureRecognizer(tapGestureRecognizer)
     }
 
-    @objc func loadImage(recognizer: UITapGestureRecognizer) {
-       presentImagePicker()
-    }
+//    @objc func loadImage(recognizer: UITapGestureRecognizer) {
+//        printScales("loadImage")
+//        presentImagePicker()
+//    }
 
     func presentImagePicker() {
+        printScales("presentImagePicker")
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
@@ -63,6 +78,7 @@ class ViewController: UIViewController {
     }
 
     private func centerScrollViewContents() {
+        printScales(">  centerScrollViewContents")
         let boundsSize = scrollView.bounds.size
         var contentsFrame = imageView.frame
 
@@ -77,17 +93,23 @@ class ViewController: UIViewController {
             contentsFrame.origin.y = 0
         }
         imageView.frame = contentsFrame
+
+        printScales("<  centerScrollViewContents")
     }
 
     @IBAction func loadImageTap(_ sender: Any) {
+//        imageView.frame = CGRect(origin: CGPoint(), size: scrollView.frame.size) // no use
         presentImagePicker()
     }
 
     fileprivate func setUpImageScroll(_ image: UIImage) {
+        printScales(">  setUpImageScroll")
         imageView.image = image
         imageView.contentMode = .center
         imageView.frame = CGRect(origin: CGPoint(), size: image.size)
         scrollView.contentSize = image.size
+
+        printScales(".  setUpImageScroll")
 
         let scrollViewFrame = scrollView.frame
         let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
@@ -99,6 +121,8 @@ class ViewController: UIViewController {
         scrollView.zoomScale = minScale
 
         centerScrollViewContents()
+        printScales("<  setUpImageScroll")
+
     }
 
     @IBAction func cropAndSaveTap(_ sender: Any) {
@@ -127,14 +151,14 @@ class ViewController: UIViewController {
 extension ViewController: UIScrollViewDelegate {
 
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        centerScrollViewContents()
+//        centerScrollViewContents()
 
-        print("scrollViewDidZoom", "contentSize=", scrollView.contentSize.fmt,  "contentOffset=", scrollView.contentOffset.fmt, "zoomScale=", scrollView.zoomScale)
+        print("scrollViewDidZoom", "contentSize=", scrollView.contentSize.fmt,  "contentOffset=", scrollView.contentOffset.fmt, "zoomScale=", scrollView.zoomScale.fmt)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
-        print("scrollViewDidScroll", "contentSize=", scrollView.contentSize.fmt,  "contentOffset=", scrollView.contentOffset.fmt, "zoomScale=", scrollView.zoomScale)
+        print("scrollViewDidScroll", "contentSize=", scrollView.contentSize.fmt,  "contentOffset=", scrollView.contentOffset.fmt, "zoomScale=", scrollView.zoomScale.fmt)
     }
 
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -146,9 +170,13 @@ extension ViewController: UIImagePickerControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        print("   imagePickerController didFinishPickingMediaWithInfo", "size=\(image.size.fmt)", "scale=\(image.scale.fmt)")
+        print(">  imagePickerController didFinishPickingMediaWithInfo", "size=\(image.size.fmt)", "scale=\(image.scale.fmt)")
+
+        printScales(">  imagePickerController")
 
         setUpImageScroll(image)
+
+        printScales("<  imagePickerController")
 
         picker.dismiss(animated: true, completion: nil)
     }
