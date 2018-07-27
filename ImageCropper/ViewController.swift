@@ -30,25 +30,51 @@ class ViewController: UIViewController {
 
     var imageView = UIImageView()
 
+    private var image: UIImage? {
+        get {
+            return imageView.image
+        }
+        set {
+            imageView.image = newValue
+//            imageView.sizeToFit()
+//            scrollView?.contentSize = imageView.frame.size
+        }
+    }
+
+
+    // outlets
+
     @IBOutlet weak var croppedImageView: UIImageView!
 
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var scrollView: UIScrollView! {
+        didSet {
+            scrollView.delegate = self
+//            scrollView.minimumZoomScale = 0.03
+//            scrollView.maximumZoomScale = 1.0
+//            scrollView.contentSize = imageView.frame.size
+            scrollView.addSubview(imageView)
+        }
+    }
+
 
     @IBOutlet weak var loadImage: UIButton!
     @IBOutlet weak var cropAndShow: UIButton!
     @IBOutlet weak var cropAndSave: UIButton!
 
+    // actions
+
     @IBAction func loadImageTap(_ sender: Any) {
-        //        imageView.frame = CGRect(origin: CGPoint(), size: scrollView.frame.size) // no use
+        print("loadImage")
         presentImagePicker()
     }
 
     @IBAction func cropAndShowTap(_ sender: Any) {
-        print("cropAndSave ")
+        print("cropAndShow")
         croppedImageView.image = croppedImage()
     }
 
     @IBAction func cropAndSaveTap(_ sender: Any) {
+        print("cropAndSave")
 
         let image = croppedImage()
         croppedImageView.image = image
@@ -60,19 +86,13 @@ class ViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
 
+    // controller startup
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        scrollView.delegate = self
-
-        imageView.frame = CGRect(origin: CGPoint(), size: scrollView.frame.size)
-//        imageView.image = UIImage(named: "image-x-generic-icon.png")
-//        imageView.image = UIImage(named: "IMG_2616")
-
-
         imageView.isUserInteractionEnabled = true
-        scrollView.addSubview(imageView)
+//        scrollView.addSubview(imageView)
 
         imageView.contentMode = .scaleAspectFit
         scrollView.contentMode = .scaleAspectFit
@@ -87,16 +107,9 @@ class ViewController: UIViewController {
 
         printScales("viewDidLoad")
 
-//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(loadImage(recognizer:)))
-//        tapGestureRecognizer.numberOfTapsRequired = 1
-//        imageView.addGestureRecognizer(tapGestureRecognizer)
     }
 
-//    @objc func loadImage(recognizer: UITapGestureRecognizer) {
-//        printScales("loadImage")
-//        presentImagePicker()
-//    }
-
+    // helpers
 
     fileprivate func croppedImage() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(scrollView.bounds.size, true, UIScreen.main.scale)
