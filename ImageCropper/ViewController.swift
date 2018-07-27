@@ -35,18 +35,31 @@ class ViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
 
     @IBOutlet weak var loadImage: UIButton!
-
-    @IBOutlet weak var crop: UIButton!
-
+    @IBOutlet weak var cropAndShow: UIButton!
     @IBOutlet weak var cropAndSave: UIButton!
 
-    fileprivate func printScales(_ caller: String) {
-        print("")
-        print("\(caller) printScales imageView.contentMode=\(imageView.contentMode.rawValue)", "scrollView.contentMode=\(scrollView.contentMode.rawValue)")
-        print("\(caller) printScales scrollView.zoomScale=\(scrollView.zoomScale) min=\(scrollView.minimumZoomScale) max=\(scrollView.maximumZoomScale)")
-//        print("\(caller) printScales scrollView.contentOffset=\(scrollView.contentOffset) center= \(scrollView.center)")
-        print("\(caller) printScales imageView.frame=\(imageView.frame.fmt)")
+    @IBAction func loadImageTap(_ sender: Any) {
+        //        imageView.frame = CGRect(origin: CGPoint(), size: scrollView.frame.size) // no use
+        presentImagePicker()
     }
+
+    @IBAction func cropAndShowTap(_ sender: Any) {
+        print("cropAndSave ")
+        croppedImageView.image = croppedImage()
+    }
+
+    @IBAction func cropAndSaveTap(_ sender: Any) {
+
+        let image = croppedImage()
+        croppedImageView.image = image
+
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+
+        let alert = UIAlertController(title: "image saved", message: "image saved", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,6 +97,27 @@ class ViewController: UIViewController {
 //        presentImagePicker()
 //    }
 
+
+    fileprivate func croppedImage() -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(scrollView.bounds.size, true, UIScreen.main.scale)
+
+        print("cropAndSave scrollView.size=\(scrollView.bounds.size) scrollView.offset=\(scrollView.contentOffset) scale=\(UIScreen.main.scale)")
+
+        print("cropAndSave image.size=\(imageView.image?.size) image.scale=\(imageView.image?.scale)")
+
+        //        let offset = scrollView.contentOffset
+        //        let origin = CGPoint(x: -offset.x, y: -offset.y)
+        //        let origin = scrollView.contentOffset
+        let origin = CGPoint()
+
+        imageView.image?.draw(at: origin)
+        let cropped = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext();
+
+        return cropped!
+    }
+
+
     func presentImagePicker() {
         printScales("presentImagePicker")
         let imagePicker = UIImagePickerController()
@@ -113,11 +147,6 @@ class ViewController: UIViewController {
         printScales("<  centerScrollViewContents")
     }
 
-    @IBAction func loadImageTap(_ sender: Any) {
-//        imageView.frame = CGRect(origin: CGPoint(), size: scrollView.frame.size) // no use
-        presentImagePicker()
-    }
-
     fileprivate func setUpImageScroll(_ image: UIImage) {
         printScales(">  setUpImageScroll")
         imageView.image = image
@@ -143,33 +172,14 @@ class ViewController: UIViewController {
 
     }
 
-    @IBAction func cropTap(_ sender: Any) {
+    fileprivate func printScales(_ caller: String) {
+        print("")
+        print("\(caller) printScales imageView.contentMode=\(imageView.contentMode.rawValue)", "scrollView.contentMode=\(scrollView.contentMode.rawValue)")
+        print("\(caller) printScales scrollView.zoomScale=\(scrollView.zoomScale) min=\(scrollView.minimumZoomScale) max=\(scrollView.maximumZoomScale)")
+        //        print("\(caller) printScales scrollView.contentOffset=\(scrollView.contentOffset) center= \(scrollView.center)")
+        print("\(caller) printScales imageView.frame=\(imageView.frame.fmt)")
     }
-    
-    @IBAction func cropAndSaveTap(_ sender: Any) {
-        UIGraphicsBeginImageContextWithOptions(scrollView.bounds.size, true, UIScreen.main.scale)
 
-        print("cropAndSave scrollView.size=\(scrollView.bounds.size) scrollView.offset=\(scrollView.contentOffset) scale=\(UIScreen.main.scale)")
-
-        print("cropAndSave image.size=\(imageView.image?.size) image.scale=\(imageView.image?.scale)")
-
-//        let offset = scrollView.contentOffset
-        //        let origin = CGPoint(x: -offset.x, y: -offset.y)
-//        let origin = scrollView.contentOffset
-        let origin = CGPoint()
-
-        imageView.image?.draw(at: origin)
-        let result = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext();
-
-//        UIImageWriteToSavedPhotosAlbum(result!, nil, nil, nil)
-//
-//        let alert = UIAlertController(title: "image saved", message: "image saved", preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//        self.present(alert, animated: true, completion: nil)
-
-        croppedImageView.image = result
-    }
 }
 
 extension ViewController: UIScrollViewDelegate {

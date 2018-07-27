@@ -43,14 +43,13 @@
                                     <action selector="loadImageTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WQg-3R-Mon"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vEn-j0-xi1" userLabel="Crop">
-                                <rect key="frame" x="135" y="614" width="105" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vEn-j0-xi1">
+                                <rect key="frame" x="136" y="614" width="105" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Crop and Show"/>
                                 <connections>
-                                    <action selector="cropAndSaveTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ceY-vF-AWT"/>
-                                    <action selector="cropTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="042-qU-Dtl"/>
+                                    <action selector="cropAndShowTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="042-qU-Dtl"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D9l-nD-aeH">
@@ -67,8 +66,8 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="crop" destination="vEn-j0-xi1" id="ilx-59-Lif"/>
                         <outlet property="cropAndSave" destination="D9l-nD-aeH" id="Yxe-9O-jIy"/>
+                        <outlet property="cropAndShow" destination="vEn-j0-xi1" id="ilx-59-Lif"/>
                         <outlet property="croppedImageView" destination="pFF-uy-JGF" id="Bpt-9b-TAw"/>
                         <outlet property="loadImage" destination="Ox0-Lf-0Yw" id="qAF-AY-YDz"/>
                         <outlet property="scrollView" destination="cwD-Mf-d4N" id="XSE-B1-dkG"/>
