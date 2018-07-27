@@ -38,6 +38,7 @@ class ViewController: UIViewController {
             imageView.image = newValue
             imageView.sizeToFit()
             scrollView?.contentSize = imageView.frame.size
+            updateScrollViewScales()
         }
     }
 
@@ -91,9 +92,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        imageView.isUserInteractionEnabled = true
-//        scrollView.addSubview(imageView)
-
         imageView.contentMode = .scaleAspectFit
         scrollView.contentMode = .scaleAspectFit
 
@@ -101,14 +99,8 @@ class ViewController: UIViewController {
         print("viewDidLoad image.size= \(image.size.fmt)")
 
         self.image = image
-
-        setUpImageScroll()
-
         croppedImageView.contentMode = .scaleAspectFit
-//        scrollView.center
-
         printScales("viewDidLoad")
-
     }
 
     // helpers
@@ -118,7 +110,6 @@ class ViewController: UIViewController {
 
         print("cropAndSave scrollView.size=\(scrollView.bounds.size) scrollView.offset=\(scrollView.contentOffset) scale=\(UIScreen.main.scale)")
 
-        print("cropAndSave image.size=\(imageView.image?.size) image.scale=\(imageView.image?.scale)")
 
         //        let offset = scrollView.contentOffset
         //        let origin = CGPoint(x: -offset.x, y: -offset.y)
@@ -143,45 +134,20 @@ class ViewController: UIViewController {
     }
 
     private func centerScrollViewContents() {
-        printScales(">  centerScrollViewContents")
-        let boundsSize = scrollView.bounds.size
-        var contentsFrame = imageView.frame
-
-        if contentsFrame.size.width < boundsSize.width {
-            contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2
-        } else {
-            contentsFrame.origin.x = 0
-        }
-        if contentsFrame.size.height < boundsSize.height {
-            contentsFrame.origin.y = (boundsSize.height - contentsFrame.size.height) / 2
-        } else {
-            contentsFrame.origin.y = 0
-        }
-        imageView.frame = contentsFrame
-
-        printScales("<  centerScrollViewContents")
+        imageView.frame.origin.x = max(0, (scrollView.bounds.size.width - imageView.frame.size.width) / 2)
+        imageView.frame.origin.y = max(0, (scrollView.bounds.size.height - imageView.frame.size.height) / 2)
     }
 
-    fileprivate func setUpImageScroll() {
-        printScales(">  setUpImageScroll")
+    fileprivate func updateScrollViewScales() {
 
+        let scrollViewFrame = scrollView.frame
+        let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
+        let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
+        let minScale = min(scaleWidth, scaleHeight)
 
-        printScales(".  setUpImageScroll")
-//
-//        let scrollViewFrame = scrollView.frame
-//        let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
-//        let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
-//        let minScale = min(scaleWidth, scaleHeight)
-
-        let minScale = CGFloat(0.3)
-
-        scrollView.minimumZoomScale = minScale
-        scrollView.maximumZoomScale = 1
+        scrollView.minimumZoomScale = minScale / 3
+        scrollView.maximumZoomScale = 3
         scrollView.zoomScale = 1
-
-        centerScrollViewContents()
-        printScales("<  setUpImageScroll")
-
     }
 
     fileprivate func printScales(_ caller: String) {
@@ -197,7 +163,7 @@ class ViewController: UIViewController {
 extension ViewController: UIScrollViewDelegate {
 
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-//        centerScrollViewContents()
+        centerScrollViewContents()
 
         print("scrollViewDidZoom", "contentSize=", scrollView.contentSize.fmt,  "contentOffset=", scrollView.contentOffset.fmt, "zoomScale=", scrollView.zoomScale.fmt)
     }
@@ -215,17 +181,7 @@ extension ViewController: UIScrollViewDelegate {
 extension ViewController: UIImagePickerControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        print(">  imagePickerController didFinishPickingMediaWithInfo", "size=\(image.size.fmt)", "scale=\(image.scale.fmt)")
-
-        printScales(">  imagePickerController")
-
-        self.image = image
-
-        setUpImageScroll()
-
-        printScales("<  imagePickerController")
-
+        self.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         picker.dismiss(animated: true, completion: nil)
     }
 
