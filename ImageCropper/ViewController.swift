@@ -36,8 +36,8 @@ class ViewController: UIViewController {
         }
         set {
             imageView.image = newValue
-//            imageView.sizeToFit()
-//            scrollView?.contentSize = imageView.frame.size
+            imageView.sizeToFit()
+            scrollView?.contentSize = imageView.frame.size
         }
     }
 
@@ -48,6 +48,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var scrollView: UIScrollView! {
         didSet {
+            print("-  scrollView didSet")
             scrollView.delegate = self
 //            scrollView.minimumZoomScale = 0.03
 //            scrollView.maximumZoomScale = 1.0
@@ -76,10 +77,9 @@ class ViewController: UIViewController {
     @IBAction func cropAndSaveTap(_ sender: Any) {
         print("cropAndSave")
 
-        let image = croppedImage()
-        croppedImageView.image = image
+        croppedImageView.image = croppedImage() // show
 
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        UIImageWriteToSavedPhotosAlbum(croppedImageView.image!, nil, nil, nil) // save to pictures
 
         let alert = UIAlertController(title: "image saved", message: "image saved", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -100,7 +100,9 @@ class ViewController: UIViewController {
         let image = (UIImage(named: "IMG_2616")!)
         print("viewDidLoad image.size= \(image.size.fmt)")
 
-        setUpImageScroll(image)
+        self.image = image
+
+        setUpImageScroll()
 
         croppedImageView.contentMode = .scaleAspectFit
 //        scrollView.center
@@ -160,12 +162,9 @@ class ViewController: UIViewController {
         printScales("<  centerScrollViewContents")
     }
 
-    fileprivate func setUpImageScroll(_ image: UIImage) {
+    fileprivate func setUpImageScroll() {
         printScales(">  setUpImageScroll")
-        imageView.image = image
 
-        imageView.frame = CGRect(origin: CGPoint(), size: image.size)
-        scrollView.contentSize = image.size
 
         printScales(".  setUpImageScroll")
 //
@@ -221,7 +220,9 @@ extension ViewController: UIImagePickerControllerDelegate {
 
         printScales(">  imagePickerController")
 
-        setUpImageScroll(image)
+        self.image = image
+
+        setUpImageScroll()
 
         printScales("<  imagePickerController")
 
