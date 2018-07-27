@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,67 +18,56 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D9l-nD-aeH">
-                                <rect key="frame" x="264" y="630" width="100" height="30"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Crop and Save"/>
-                                <connections>
-                                    <action selector="cropAndSaveTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6Fw-Mc-9yH"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ox0-Lf-0Yw">
-                                <rect key="frame" x="16" y="630" width="80" height="30"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" fixedFrame="YES" bounces="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwD-Mf-d4N">
+                                <rect key="frame" x="0.0" y="31" width="375" height="390"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BaN-sC-VC3">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="390"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.46202266219999999" green="0.83828371759999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </scrollView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pFF-uy-JGF">
+                                <rect key="frame" x="0.0" y="429" width="375" height="174.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.70966715359999999" blue="0.088372796049999994" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="251" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ox0-Lf-0Yw">
+                                <rect key="frame" x="16" y="614" width="80" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.99864711490000002" green="1" blue="0.086546265649999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" title="Load Image"/>
                                 <connections>
                                     <action selector="loadImageTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WQg-3R-Mon"/>
                                 </connections>
                             </button>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwD-Mf-d4N">
-                                <rect key="frame" x="16" y="61" width="343" height="362"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BaN-sC-VC3">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="362"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="362" id="eJo-bk-gG9"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.81265920560000005" green="0.88647487079999998" blue="0.93009507479999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="BaN-sC-VC3" secondAttribute="trailing" id="Hxx-uf-LhL"/>
-                                    <constraint firstItem="BaN-sC-VC3" firstAttribute="centerY" secondItem="cwD-Mf-d4N" secondAttribute="centerY" id="QEx-BP-7Hx"/>
-                                    <constraint firstItem="BaN-sC-VC3" firstAttribute="centerX" secondItem="cwD-Mf-d4N" secondAttribute="centerX" id="XLt-ms-cQb"/>
-                                    <constraint firstItem="BaN-sC-VC3" firstAttribute="top" secondItem="cwD-Mf-d4N" secondAttribute="top" id="YF5-BP-WLK"/>
-                                    <constraint firstAttribute="bottom" secondItem="BaN-sC-VC3" secondAttribute="bottom" id="hhi-NJ-jr4"/>
-                                    <constraint firstItem="BaN-sC-VC3" firstAttribute="leading" secondItem="cwD-Mf-d4N" secondAttribute="leading" id="v3i-fk-gnP"/>
-                                </constraints>
-                            </scrollView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pFF-uy-JGF">
-                                <rect key="frame" x="16" y="439" width="343" height="183"/>
-                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vEn-j0-xi1" userLabel="Crop">
+                                <rect key="frame" x="135" y="614" width="105" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Crop and Show"/>
+                                <connections>
+                                    <action selector="cropAndSaveTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ceY-vF-AWT"/>
+                                    <action selector="cropTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="042-qU-Dtl"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D9l-nD-aeH">
+                                <rect key="frame" x="259" y="614" width="100" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Crop and Save"/>
+                                <connections>
+                                    <action selector="cropAndSaveTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6Fw-Mc-9yH"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="pFF-uy-JGF" firstAttribute="top" secondItem="cwD-Mf-d4N" secondAttribute="bottom" constant="16" id="2gv-xy-TaS"/>
-                            <constraint firstItem="D9l-nD-aeH" firstAttribute="height" secondItem="Ox0-Lf-0Yw" secondAttribute="height" id="HBj-cs-8bh"/>
-                            <constraint firstItem="D9l-nD-aeH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" symbolic="YES" id="MeI-ZK-q2R"/>
-                            <constraint firstItem="cwD-Mf-d4N" firstAttribute="trailing" secondItem="pFF-uy-JGF" secondAttribute="trailing" id="O0r-5G-Ptx"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="D9l-nD-aeH" secondAttribute="bottom" constant="7" id="ROX-UX-H6v"/>
-                            <constraint firstItem="D9l-nD-aeH" firstAttribute="bottom" secondItem="Ox0-Lf-0Yw" secondAttribute="bottom" id="Tqr-gH-nG5"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="D9l-nD-aeH" secondAttribute="trailing" constant="11" id="WYK-iZ-Sv2"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ox0-Lf-0Yw" secondAttribute="trailing" constant="20" symbolic="YES" id="Wp1-0z-YVG"/>
-                            <constraint firstItem="cwD-Mf-d4N" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="Zou-FG-PkK"/>
-                            <constraint firstItem="Ox0-Lf-0Yw" firstAttribute="top" secondItem="pFF-uy-JGF" secondAttribute="bottom" constant="8" symbolic="YES" id="hxM-HN-nS9"/>
-                            <constraint firstItem="D9l-nD-aeH" firstAttribute="baseline" secondItem="Ox0-Lf-0Yw" secondAttribute="baseline" id="lk7-3L-Zsh"/>
-                            <constraint firstItem="cwD-Mf-d4N" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="41" id="syf-Af-ytT"/>
-                            <constraint firstItem="cwD-Mf-d4N" firstAttribute="leading" secondItem="pFF-uy-JGF" secondAttribute="leading" id="vQw-8I-PC3"/>
-                            <constraint firstItem="cwD-Mf-d4N" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="x47-mp-Acr"/>
-                            <constraint firstItem="cwD-Mf-d4N" firstAttribute="leading" secondItem="Ox0-Lf-0Yw" secondAttribute="leading" id="zfz-aT-O9q"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="crop" destination="vEn-j0-xi1" id="ilx-59-Lif"/>
                         <outlet property="cropAndSave" destination="D9l-nD-aeH" id="Yxe-9O-jIy"/>
                         <outlet property="croppedImageView" destination="pFF-uy-JGF" id="Bpt-9b-TAw"/>
                         <outlet property="loadImage" destination="Ox0-Lf-0Yw" id="qAF-AY-YDz"/>

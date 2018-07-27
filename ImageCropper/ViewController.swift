@@ -36,12 +36,14 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var loadImage: UIButton!
 
+    @IBOutlet weak var crop: UIButton!
+
     @IBOutlet weak var cropAndSave: UIButton!
 
     fileprivate func printScales(_ caller: String) {
         print("")
         print("\(caller) printScales imageView.contentMode=\(imageView.contentMode.rawValue)", "scrollView.contentMode=\(scrollView.contentMode.rawValue)")
-//        print("\(caller) printScales scrollView.zoomScale=\(scrollView.zoomScale) min=\(scrollView.minimumZoomScale) max=\(scrollView.maximumZoomScale)")
+        print("\(caller) printScales scrollView.zoomScale=\(scrollView.zoomScale) min=\(scrollView.minimumZoomScale) max=\(scrollView.maximumZoomScale)")
 //        print("\(caller) printScales scrollView.contentOffset=\(scrollView.contentOffset) center= \(scrollView.center)")
         print("\(caller) printScales imageView.frame=\(imageView.frame.fmt)")
     }
@@ -129,16 +131,21 @@ class ViewController: UIViewController {
 //        let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
 //        let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
 //        let minScale = min(scaleWidth, scaleHeight)
-//
-//        scrollView.minimumZoomScale = minScale
-//        scrollView.maximumZoomScale = 1
-//        scrollView.zoomScale = minScale
+
+        let minScale = CGFloat(0.3)
+
+        scrollView.minimumZoomScale = minScale
+        scrollView.maximumZoomScale = 1
+        scrollView.zoomScale = 1
 
         centerScrollViewContents()
         printScales("<  setUpImageScroll")
 
     }
 
+    @IBAction func cropTap(_ sender: Any) {
+    }
+    
     @IBAction func cropAndSaveTap(_ sender: Any) {
         UIGraphicsBeginImageContextWithOptions(scrollView.bounds.size, true, UIScreen.main.scale)
 
