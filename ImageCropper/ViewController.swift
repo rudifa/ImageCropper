@@ -19,6 +19,22 @@ extension CGPoint {
 
 extension CGSize {
     var fmt: String { return String(format: "(%.2f, %.2f)", self.width, self.height) }
+
+    static func * (size: CGSize, scalar: CGFloat) -> CGSize {
+        return CGSize(width: size.width * scalar, height: size.height * scalar)
+    }
+
+    static func * (size: CGSize, scalar: Double) -> CGSize {
+        return size * CGFloat(scalar)
+    }
+
+    static func / (size: CGSize, scalar: CGFloat) -> CGSize {
+        return CGSize(width: size.width / scalar, height: size.height / scalar)
+    }
+
+    static func / (size: CGSize, scalar: Double) -> CGSize {
+        return size / CGFloat(scalar)
+    }
 }
 
 extension CGRect {
@@ -104,7 +120,8 @@ class ViewController: UIViewController {
     // helpers
     
     fileprivate func croppedImage() -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(scrollView.bounds.size, true, UIScreen.main.scale)
+        let size = scrollView.bounds.size / scrollView.zoomScale
+        UIGraphicsBeginImageContextWithOptions(size, true, UIScreen.main.scale)
         
         print("cropAndSave scrollView.size=\(scrollView.bounds.size) scrollView.offset=\(scrollView.contentOffset) scale=\(UIScreen.main.scale)")
         
