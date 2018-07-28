@@ -11,6 +11,18 @@ On `master 82d0a39` we have
 
 - initial default image
 - load image button
-- loaded image in `scaleAspectFit` mode (fully visible)
+- loaded image looks as if in `scaleAspectFit` mode (it is fully visible), however the code does `imageView.contentMode = .center` and then rescales `scrollView.zoomScale = minScale`
 - saved image is a cutout
 - on second loadImage it is displaced - like the offset is wrong
+- 3rd and subsequent loads are like second
+
+- what is the centering effect of `scaleAspectFit`?
+
+```
+UIView.ContentMode.scaleToFill     = 0  fills, aspect ratio not preserved, default
+UIView.ContentMode.scaleAspectFit  = 1  aspect ratio preserved, may not fill
+UIView.ContentMode.scaleAspectFill = 2  aspect ratio preserved, may clip
+UIView.ContentMode.center          = 4  center the content in the view’s bounds, keeping the proportions the same.
+```
+
+ba06825: at last we have same behavior for scroll view btw initial image and loaded image.
