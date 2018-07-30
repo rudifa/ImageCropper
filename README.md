@@ -26,3 +26,12 @@ UIView.ContentMode.center          = 4  center the content in the view’s bound
 ```
 
 ba06825: at last we have same behavior for scroll view btw initial image and loaded image.
+
+tentative_4: cropping looks plausible, but it is problematic for a large image (4288,2848)
+semms to be related to 
+croppedImage scrollView.size=(375.0, 375.0) scrollView.offset=(1628.5, 2006.5) zoomScale=1.0
+2018-07-28 22:50:44.747878+0200 ImageCropper[41456:23353561] imageBlockSetCreate:829: *** buffer height mismatch: rect:{0,1920,4288,768}  size:{4288,2848}
+
+Look at /GitHub/iOS/-aatish-r-ImageCropper - it uses a different approach to cropping 
+
+

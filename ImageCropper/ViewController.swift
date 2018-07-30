@@ -90,15 +90,19 @@ class ViewController: UIViewController {
         croppedImageView.image = croppedImage()
     }
     
-    @IBAction func cropAndSaveTap(_ sender: Any) {
-        print("cropAndSave")
-        
-        croppedImageView.image = croppedImage() // show
-        UIImageWriteToSavedPhotosAlbum(croppedImageView.image!, nil, nil, nil) // save to pictures
-        
+    fileprivate func saveImageToPhotos(_ image: UIImage) {
+        UIImageWriteToSavedPhotosAlbum(croppedImageView.image!, nil, nil, nil)
+
         let alert = UIAlertController(title: "image saved", message: "image saved", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+
+    @IBAction func cropAndSaveTap(_ sender: Any) {
+        print("cropAndSave")
+        
+        croppedImageView.image = croppedImage()
+        saveImageToPhotos(croppedImageView.image!)
     }
     
     // controller startup
@@ -120,10 +124,13 @@ class ViewController: UIViewController {
     // helpers
     
     fileprivate func croppedImage() -> UIImage {
+
         let size = scrollView.bounds.size / scrollView.zoomScale
-        UIGraphicsBeginImageContextWithOptions(size, true, UIScreen.main.scale)
+//        let sizeClipped = CGSize(width: min(size.width, (self.image?.size.width)!), height: min(size.height, (self.image?.size.height)!))
+        let sizeClipped = size
+        UIGraphicsBeginImageContextWithOptions(sizeClipped, true, (self.image?.scale)!)
         
-        print("cropAndSave scrollView.size=\(scrollView.bounds.size) scrollView.offset=\(scrollView.contentOffset) scale=\(UIScreen.main.scale)")
+        print("croppedImage scrollView.size=\(scrollView.bounds.size) scrollView.offset=\(scrollView.contentOffset) zoomScale=\(scrollView.zoomScale)")
         
         
         let offset = scrollView.contentOffset
@@ -133,7 +140,8 @@ class ViewController: UIViewController {
         let cropped = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext();
 
-        print("cropAndSave cropped.size=\(String(describing: cropped?.size.fmt))")
+        print("croppedImage image.size=\(String(describing: image?.size.fmt)) scale=\(String(describing: image?.scale))")
+        print("croppedImage cropped.size=\(String(describing: cropped?.size.fmt)) scale=\(String(describing: cropped?.scale))")
 
         return cropped!
     }
@@ -180,12 +188,12 @@ extension ViewController: UIScrollViewDelegate {
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         centerScrollViewContents()
         
-        print("scrollViewDidZoom", "contentSize=", scrollView.contentSize.fmt,  "contentOffset=", scrollView.contentOffset.fmt, "zoomScale=", scrollView.zoomScale.fmt)
+//        print("scrollViewDidZoom", "contentSize=", scrollView.contentSize.fmt,  "contentOffset=", scrollView.contentOffset.fmt, "zoomScale=", scrollView.zoomScale.fmt)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        print("scrollViewDidScroll", "contentSize=", scrollView.contentSize.fmt,  "contentOffset=", scrollView.contentOffset.fmt, "zoomScales= \(scrollView.zoomScale.fmt) ( \(scrollView.minimumZoomScale.fmt)...\(scrollView.maximumZoomScale.fmt) )")
+//        print("scrollViewDidScroll", "contentSize=", scrollView.contentSize.fmt,  "contentOffset=", scrollView.contentOffset.fmt, "zoomScales= \(scrollView.zoomScale.fmt) ( \(scrollView.minimumZoomScale.fmt)...\(scrollView.maximumZoomScale.fmt) )")
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
