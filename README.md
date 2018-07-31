@@ -34,4 +34,8 @@ croppedImage scrollView.size=(375.0, 375.0) scrollView.offset=(1628.5, 2006.5) z
 
 Look at /GitHub/iOS/-aatish-r-ImageCropper - it uses a different approach to cropping 
 
+2018_07_31
+
+- cropping still not correctly aligned?
+- make sure that cropped view has same aspect ratio as the scroll view!
 

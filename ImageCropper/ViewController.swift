@@ -46,17 +46,21 @@ class ViewController: UIViewController {
     
     var imageView = UIImageView()
     
-    private var image: UIImage? {
+    private func setUpScrolling() {
+        imageView.sizeToFit()
+        scrollView?.contentSize = imageView.frame.size
+        scrollView.contentOffset = CGPoint()
+        updateScrollViewScales()
+        centerScrollViewContents()
+    }
+
+    var image: UIImage? {
         get {
             return imageView.image
         }
         set {
             imageView.image = newValue
-            imageView.sizeToFit()
-            scrollView?.contentSize = imageView.frame.size
-            scrollView.contentOffset = CGPoint()
-            updateScrollViewScales()
-            centerScrollViewContents()
+            setUpScrolling()
         }
     }
     
@@ -180,6 +184,20 @@ class ViewController: UIViewController {
         //        print("\(caller) printScales scrollView.contentOffset=\(scrollView.contentOffset) center= \(scrollView.center)")
         print("\(caller) printScales imageView.frame=\(imageView.frame.fmt)")
     }
+
+    // from /Users/rudifarkas/GitHub/iOS/-aatish-r-ImageCropper2
+    // seems to work for landscape images,
+    // while resulting portrait images are rotated by pi/2 
+    fileprivate func croppedImage2() -> UIImage {
+        let scale = 1/scrollView.zoomScale
+        let x = scrollView.contentOffset.x * scale
+        let y = scrollView.contentOffset.y * scale
+        let width = scrollView.frame.size.width * scale
+        let height = scrollView.frame.size.height * scale
+        let croppedCGImage = imageView.image?.cgImage?.cropping(to: CGRect(x: x, y: y, width: width, height: height))
+        return UIImage(cgImage: croppedCGImage!)
+    }
+
     
 }
 
