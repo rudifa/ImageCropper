@@ -78,10 +78,11 @@
                         <outlet property="croppedImageView" destination="pFF-uy-JGF" id="Bpt-9b-TAw"/>
                         <outlet property="loadImage" destination="Ox0-Lf-0Yw" id="qAF-AY-YDz"/>
                         <outlet property="scrollView" destination="cwD-Mf-d4N" id="XSE-B1-dkG"/>
+                        <outlet property="sourceImageView" destination="BaN-sC-VC3" id="ooV-QP-Jat"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="cBq-ss-HoA">
+                <tapGestureRecognizer numberOfTapsRequired="2" id="cBq-ss-HoA">
                     <connections>
                         <action selector="scrollViewTap:" destination="BYZ-38-t0r" id="41R-vZ-VKK"/>
                     </connections>
