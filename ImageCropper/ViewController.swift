@@ -9,50 +9,9 @@
 import UIKit
 
 
-extension CGFloat {
-    var fmt: String { return String(format: "%.3g", self) }
-}
-
-extension CGPoint {
-    var fmt: String { return String(format: "(%.2f, %.2f)", self.x, self.y) }
-}
-
-extension CGSize {
-    var fmt: String { return String(format: "(%.2f, %.2f)", self.width, self.height) }
-
-    static func * (size: CGSize, scalar: CGFloat) -> CGSize {
-        return CGSize(width: size.width * scalar, height: size.height * scalar)
-    }
-
-    static func * (size: CGSize, scalar: Double) -> CGSize {
-        return size * CGFloat(scalar)
-    }
-
-    static func / (size: CGSize, scalar: CGFloat) -> CGSize {
-        return CGSize(width: size.width / scalar, height: size.height / scalar)
-    }
-
-    static func / (size: CGSize, scalar: Double) -> CGSize {
-        return size / CGFloat(scalar)
-    }
-}
-
-extension CGRect {
-    var fmt: String { return origin.fmt + size.fmt }
-}
-
-
 class ViewController: UIViewController {
     
     var imageView = UIImageView()
-    
-    private func setUpScrolling() {
-        imageView.sizeToFit()
-        scrollView?.contentSize = imageView.frame.size
-        scrollView.contentOffset = CGPoint()
-        updateScrollViewScales()
-        centerScrollViewContents()
-    }
 
     var image: UIImage? {
         get {
@@ -83,7 +42,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var cropAndSave: UIButton!
     
     // actions
-    
+
+    @IBAction func scrollViewTap(_ sender: UITapGestureRecognizer) {
+        print("   imageViewTap", scrollInfo)
+    }
+
     @IBAction func loadImageTap(_ sender: Any) {
         print("loadImage")
         presentImagePicker()
@@ -93,6 +56,26 @@ class ViewController: UIViewController {
         print("cropAndShow")
         croppedImageView.image = croppedImage()
     }
+
+    // private methods
+
+    private var scrollInfo: String {
+        let sv = scrollView!
+        return "contentSize=\(sv.contentSize.fmt)  contentOffset=\(sv.contentOffset.fmt)  zoomScale=\(sv.zoomScale.fmt)"
+    }
+
+    private func setUpScrolling() {
+        imageView.sizeToFit()
+        scrollView?.contentSize = imageView.frame.size
+        scrollView.contentOffset = CGPoint()
+
+        print("   setUpScrolling", scrollInfo)
+
+        //        updateScrollViewScales()
+        //        centerScrollViewContents()
+    }
+
+
     
     fileprivate func saveImageToPhotos(_ image: UIImage) {
         UIImageWriteToSavedPhotosAlbum(croppedImageView.image!, nil, nil, nil)
@@ -118,7 +101,7 @@ class ViewController: UIViewController {
         scrollView.contentMode = .scaleAspectFit
         
         let image = (UIImage(named: "IMG_2616")!)
-        print("viewDidLoad image.size= \(image.size.fmt)")
+        print("   viewDidLoad image.size= \(image.size.fmt)")
         
         self.image = image
         croppedImageView.contentMode = .scaleAspectFit
