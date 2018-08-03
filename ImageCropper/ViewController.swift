@@ -64,7 +64,8 @@ class ViewController: UIViewController {
         return "sourceImageView.frame=\(sourceImageView.frame.fmt) scrollView.frame=\(scrollView.frame.fmt)"
     }
 
-    private func setUpScrolling() {
+    private func setUpForScrolling(image: UIImage) {
+        sourceImageView.image = image
         sourceImageView.sizeToFit()
         scrollView?.contentSize = (sourceImageView.image?.size)! // sourceImageView.image.size IS NOT AFFECTED BY zoomScale
         scrollView.contentOffset = CGPoint()
@@ -106,10 +107,9 @@ class ViewController: UIViewController {
 
         sourceImageView.contentMode = .scaleAspectFit
         scrollView.contentMode = .scaleAspectFit
-        
-        sourceImageView.image = (UIImage(named: "IMG_2616")!)
+
         croppedImageView.contentMode = .scaleAspectFit
-        setUpScrolling()
+        setUpForScrolling(image: UIImage(named: "IMG_2616")!)
 
         printScales("viewDidLoad")
     }
@@ -181,8 +181,8 @@ extension ViewController: UIScrollViewDelegate {
 extension ViewController: UIImagePickerControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        self.sourceImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        setUpScrolling()
+        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        setUpForScrolling(image: image!)
 
         picker.dismiss(animated: true, completion: nil)
     }
