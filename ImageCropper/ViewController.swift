@@ -118,21 +118,18 @@ class ViewController: UIViewController {
     
     fileprivate func getCroppedImage() -> UIImage {
 
-        let size = scrollView.bounds.size / scrollView.zoomScale
-        let sizeClipped = size
-        UIGraphicsBeginImageContextWithOptions(sizeClipped, true, 0.0)
-        
-        print("---croppedImage", _scrollInfo, sizeClipped.fmt)
-        
-        
-        let offset = scrollView.contentOffset
-        let origin = CGPoint(x: -offset.x, y: -offset.y)
+        let croppedSize = scrollView.bounds.size / scrollView.zoomScale
+        let croppedOrigin = scrollView.contentOffset / scrollView.zoomScale * -1.0
 
-        sourceImageView.image?.draw(at: origin)
-        let cropped = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsBeginImageContextWithOptions(croppedSize, true, 0.0)
+        
+        print("---croppedImage", _scrollInfo, "scrollViewSize=", scrollView.bounds.size.fmt, "croppedSize=", croppedSize.fmt)
+
+        sourceImageView.image?.draw(at: croppedOrigin)
+        let croppedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext();
 
-        return cropped!
+        return croppedImage!
     }
     
     
