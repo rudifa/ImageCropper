@@ -1,5 +1,5 @@
 //
-//  CGUtil.swift v.0.1.0
+//  CGUtil.swift v.0.1.1
 //  Swift4Util
 //
 //  Created by Rudolf Farkas on 31.07.18.
@@ -43,6 +43,26 @@ extension CGSize {
     }
 
     static func / (size: CGSize, scalar: Double) -> CGSize {
+        return size / CGFloat(scalar)
+    }
+}
+
+
+extension CGPoint {
+
+    static func * (size: CGPoint, scalar: CGFloat) -> CGPoint {
+        return CGPoint(x: size.x * scalar, y: size.y * scalar)
+    }
+
+    static func * (size: CGPoint, scalar: Double) -> CGPoint {
+        return size * CGFloat(scalar)
+    }
+
+    static func / (size: CGPoint, scalar: CGFloat) -> CGPoint {
+        return CGPoint(x: size.x / scalar, y: size.y / scalar)
+    }
+
+    static func / (size: CGPoint, scalar: Double) -> CGPoint {
         return size / CGFloat(scalar)
     }
 }
